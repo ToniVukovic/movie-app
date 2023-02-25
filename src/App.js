@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import MovieList from "./components/MovieList";
-// import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import MovieListHeading from "./components/MovieListHeading";
 import SearchBox from "./components/SearchBox";
@@ -30,6 +28,11 @@ function App() {
   const AddFavouriteMovie = (movie) => {
     const newFavouriteList = [...favourites, movie];
     setFavourites(newFavouriteList);
+    ////////////////////
+    const newMovieList = movies.filter(
+      (favourite) => movie.imdbID !== favourite.imdbID
+    );
+    setMovies(newMovieList);
   };
 
   const RemoveFavouriteMovie = (movie) => {
@@ -37,25 +40,32 @@ function App() {
       (favourite) => favourite.imdbID !== movie.imdbID
     );
     setFavourites(newFavouriteList);
+    ////////
+    const newMovieList = [...movies, movie];
+    setMovies(newMovieList);
   };
 
   return (
-    <div className="container-fluid movie-app">
-      <div className="row d-flex align-items-center mt-4 mb-4">
+    <div className="movie-app">
+      <div className="head">
         <MovieListHeading heading="Movies" />
         <SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
       </div>
-      <div className="row">
-        <MovieList
-          movies={movies}
-          handleFavouritesClick={AddFavouriteMovie}
-          favoriteComponent={AddFavourites}
-        />
+
+      <div className="smaller-box back-off">
+        {searchValue && <MovieListHeading heading="Results" />}
       </div>
-      <div className="row d-flex align-items-center mt-4 mb-4">
-        <MovieListHeading heading="Favourites" />
-      </div>
-      <div className="row">
+      {searchValue && (
+        <div className="box">
+          <MovieList
+            movies={movies}
+            handleFavouritesClick={AddFavouriteMovie}
+            favoriteComponent={AddFavourites}
+          />
+        </div>
+      )}
+      <div className="smaller-box">{/* popravi ovo  */}</div>
+      <div className="box" style={{ background: "green" }}>
         <MovieList
           movies={favourites}
           handleFavouritesClick={RemoveFavouriteMovie}
