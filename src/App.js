@@ -45,14 +45,25 @@ function App() {
     setMovies(newMovieList);
   };
 
+  var prevScrollpos = window.pageYOffset;
+  window.onscroll = function () {
+    var currentScrollPos = window.pageYOffset;
+    if (prevScrollpos > currentScrollPos) {
+      document.getElementById("navbar").style.top = "0";
+    } else {
+      document.getElementById("navbar").style.top = "-200px";
+    }
+    prevScrollpos = currentScrollPos;
+  };
+
   return (
     <div className="movie-app">
-      <div className="head">
-        <MovieListHeading heading="Movies" />
+      <div className="head" id="navbar">
+        <MovieListHeading heading="Find your favourite movie" />
         <SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
       </div>
 
-      <div className="smaller-box back-off">
+      <div className="smaller-box back-off clear-top">
         {searchValue && <MovieListHeading heading="Results" />}
       </div>
       {searchValue && (
@@ -64,8 +75,10 @@ function App() {
           />
         </div>
       )}
-      <div className="smaller-box">{/* popravi ovo  */}</div>
-      <div className="box" style={{ background: "green" }}>
+      <div className="">
+        <MovieListHeading heading="Favourites" />
+      </div>
+      <div className="box fav-box" style={{ background: "#404040" }}>
         <MovieList
           movies={favourites}
           handleFavouritesClick={RemoveFavouriteMovie}
