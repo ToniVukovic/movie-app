@@ -30,7 +30,7 @@ function App() {
     setFavourites(newFavouriteList);
     ////////////////////
     const newMovieList = movies.filter(
-      (favourite) => movie.imdbID !== favourite.imdbID
+      (favourite) => favourite.imdbID !== movie.imdbID
     );
     setMovies(newMovieList);
   };
